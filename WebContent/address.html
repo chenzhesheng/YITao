@@ -12,13 +12,13 @@
 			font-size:14px;
 		}
 		#l-map {
-			width:100%;
-			height:900px;
+			width:100%; 
+			height:100%;
 			overflow: hidden;
 		}
 		#result{
+			display:none;
 			width:100%;
-			visibility: inherit;
 		}
 		li{
 			line-height:28px;
@@ -48,7 +48,7 @@
 			right:0px;
 			top:40px;
 		}
-		.map_popup .popup_main {
+		.map_popup .popup_main { 
 			background:#fff;
 			border: 1px solid #8BA4D8;
 			height: 100%;
@@ -73,9 +73,9 @@
 			right: 4px;
 			top: 6px;
 			width: 12px;
-		}
+		}	
 	</style>
-	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=q2QZRwZpC5rvp8NWdca2S4t0kcAuuZbz"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=A4749739227af1618f7b0d1b588c0e85"></script>
 	<!-- 加载百度地图样式信息窗口 -->
 	<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
 	<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
@@ -84,19 +84,19 @@
 	<title>叠加麻点图层</title>
 </head>
 <body>
-<div id="l-map"></div>
-<div id="result">
-	<button id="open">打开</button><button id="close">关闭</button>
-</div>
-<!--城市列表-->
-<div class="sel_container"><strong id="curCity">北京市</strong> [<a id="curCityText" href="javascript:void(0)">更换城市</a>]</div>
-<div class="map_popup" id="cityList" style="display:none;">
-	<div class="popup_main">
-		<div class="title">城市列表</div>
-		<div class="cityList" id="citylist_container"></div>
-		<button id="popup_close"></button>
+	<div id="l-map"></div>
+	<div id="result">
+		<button id="open">打开</button><button id="close">关闭</button>
 	</div>
-</div>
+	<!--城市列表-->
+	<div class="sel_container"><strong id="curCity">北京市</strong> [<a id="curCityText" href="javascript:void(0)">更换城市</a>]</div>
+	<div class="map_popup" id="cityList" style="display:none;">
+		<div class="popup_main">
+			<div class="title">城市列表</div>
+			<div class="cityList" id="citylist_container"></div>
+			<button id="popup_close"></button>
+		</div>
+	</div>
 </body>
 </html>
 <script type="text/javascript">
@@ -122,24 +122,24 @@
 	}
 	function callback(e)//单击热点图层
 	{
-		var customPoi = e.customPoi;//poi的默认字段
-		var contentPoi=e.content;//poi的自定义字段
-		var content = '<p style="width:280px;margin:0;line-height:20px;">地址：' + customPoi.address + '<br/>价格:'+contentPoi.dayprice+'元'+'</p>';
-		var searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, {
-			title: customPoi.title, //标题
-			width: 290, //宽度
-			height: 40, //高度
-			panel : "panel", //检索结果面板
-			enableAutoPan : true, //自动平移
-			enableSendToPhone: true, //是否显示发送到手机按钮
-			searchTypes :[
-				BMAPLIB_TAB_SEARCH,   //周边检索
-				BMAPLIB_TAB_TO_HERE,  //到这里去
-				BMAPLIB_TAB_FROM_HERE //从这里出发
-			]
-		});
-		var point = new BMap.Point(customPoi.point.lng, customPoi.point.lat);
-		searchInfoWindow.open(point);
+			var customPoi = e.customPoi;//poi的默认字段
+			var contentPoi=e.content;//poi的自定义字段
+			var content = '<p style="width:280px;margin:0;line-height:20px;">地址：' + customPoi.address + '<br/>价格:'+contentPoi.dayprice+'元'+'</p>';
+			var searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, {
+				title: customPoi.title, //标题
+				width: 290, //宽度
+				height: 40, //高度
+				panel : "panel", //检索结果面板
+				enableAutoPan : true, //自动平移
+				enableSendToPhone: false, //是否显示发送到手机按钮
+				searchTypes :[
+					BMAPLIB_TAB_SEARCH,   //周边检索
+					BMAPLIB_TAB_TO_HERE,  //到这里去
+					BMAPLIB_TAB_FROM_HERE //从这里出发
+				]
+			});
+			var point = new BMap.Point(customPoi.point.lng, customPoi.point.lat);
+			searchInfoWindow.open(point);
 	}
 	document.getElementById("open").onclick = function(){
 		addCustomLayer();
@@ -168,7 +168,7 @@
 			cl.style.display = "";
 		} else {
 			cl.style.display = "none";
-		}
+		}	
 	};
 	// 给城市列表上的关闭按钮添加点击操作
 	document.getElementById("popup_close").onclick = function() {
@@ -177,6 +177,6 @@
 			cl.style.display = "";
 		} else {
 			cl.style.display = "none";
-		}
+		}	
 	};
 </script>
