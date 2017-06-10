@@ -107,85 +107,53 @@
 	map.enableScrollWheelZoom();
 	map.addControl(new BMap.NavigationControl());  //添加默认缩放平移控件
 	
+	
+	
 	// 定位當前位置
 	var geolocation = new BMap.Geolocation();
 	geolocation.getCurrentPosition(function(r){
 		if(this.getStatus() == BMAP_STATUS_SUCCESS){
 			var mk = new BMap.Marker(r.point);
-			map.addOverlay(mk);
 			map.panTo(r.point);
 			point = new BMap.Point(r.point.lng,r.point.lat); 
-		}
-		else {
+		}else {
 			alert('failed'+this.getStatus());
 		}        
 	},{enableHighAccuracy: true})
 	
-
-	// 檢索點擊
-	<!-- var customLayer; -->
-	<!-- function addCustomLayer(keyword) { -->
-		<!-- if (customLayer) { -->
-			<!-- map.removeTileLayer(customLayer); -->
-		<!-- } -->
-		<!-- customLayer=new BMap.CustomLayer({ -->
-			<!-- geotableId: 30960, -->
-			<!-- q: '', //检索关键字 -->
-			<!-- tags: '', //空格分隔的多字符串 -->
-			<!-- filter: '' //过滤条件,参考http://developer.baidu.com/map/lbs-geosearch.htm#.search.nearby -->
-		<!-- }); -->
-		<!-- map.addTileLayer(customLayer); -->
-		<!-- customLayer.addEventListener('hotspotclick',callback); -->
-	<!-- } -->
 	
-	var mapPoint = new BMap.Point(107.403694,33.927552);  // 创建点坐标
-	var marker = new BMap.Marker(mapPoint);  // 创建标注
-	map.addOverlay(marker);              // 将标注添加到地图中
-	var opts = {
-	  width : 200,     // 信息窗口宽度
-	  height: 100,     // 信息窗口高度
-	  title : "海底捞王府井店" , // 信息窗口标题
-	  enableMessage:true,//设置允许信息窗发送短息
-	  message:"亲耐滴，晚上一起吃个饭吧？戳下面的链接看下地址喔~"
+	
+	var data = new Array();
+	data[0] = {lng:116.373694,lat:23.397552,name:"普宁店",address:"地址：普宁市东城区王府井大街88号乐天银泰百货八层"};
+	data[1] = {lng:117.373694,lat:23.997552,name:"潮州店",address:"地址：潮州市东城区王府井大街88号乐天银泰百货八层"};
+
+	for (i=0;i<data.length;i++)
+	{
+		addMarker(data[i]);
 	}
-	var infoWindow = new BMap.InfoWindow("地址：北京市东城区王府井大街88号乐天银泰百货八层", opts);  // 创建信息窗口对象 
-	marker.addEventListener("click", function(){          
+	
+	
+
+	function addMarker(data){  // 创建图标对象     
+		var opts = {
+		  width : 200,     // 信息窗口宽度
+		  height: 50,     // 信息窗口高度
+		  title : data.name , // 信息窗口标题
+		  enableMessage:true,//设置允许信息窗发送短息
+		  message:""
+		}
+		var mapPoint = new BMap.Point(data.lng,data.lat);  // 创建点坐标
+		var marker = new BMap.Marker(mapPoint);  // 创建标注
+        var myIcon = new BMap.Icon("position.png", new BMap.Size(25, 40), {offset: new BMap.Size(0, 0)});  
+        // 创建标注对象并添加到地图     
+        var marker = new BMap.Marker(mapPoint, {icon: myIcon});      
+        map.addOverlay(marker);  
+		var infoWindow = new BMap.InfoWindow(data.address, opts);  // 创建信息窗口对象 
+		marker.addEventListener("click", function(){          
 		map.openInfoWindow(infoWindow,mapPoint); //开启信息窗口
 	});
+    }  
 	
-	<!-- // 點擊標注 -->
-	<!-- function callback(e)//单击热点图层 -->
-	<!-- { -->
-			<!-- var customPoi = e.customPoi;//poi的默认字段 -->
-			<!-- var contentPoi=e.content;//poi的自定义字段 -->
-			<!-- var content = '<p style="width:280px;margin:0;line-height:20px;">地址：' + customPoi.address + '<br/>价格:'+contentPoi.dayprice+'元'+'</p>'; -->
-			<!-- var searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, { -->
-				<!-- title: customPoi.title, //标题 -->
-				<!-- width: 290, //宽度 -->
-				<!-- height: 40, //高度 -->
-				<!-- panel : "panel", //检索结果面板 -->
-				<!-- enableAutoPan : true, //自动平移 -->
-				<!-- enableSendToPhone: false, //是否显示发送到手机按钮 -->
-				<!-- searchTypes :[ -->
-					<!-- BMAPLIB_TAB_SEARCH,   //周边检索 -->
-					<!-- BMAPLIB_TAB_TO_HERE,  //到这里去 -->
-					<!-- BMAPLIB_TAB_FROM_HERE //从这里出发 -->
-				<!-- ] -->
-			<!-- }); -->
-			<!-- var point = new BMap.Point(customPoi.point.lng, customPoi.point.lat); -->
-			<!-- searchInfoWindow.open(point); -->
-	<!-- } -->
-	
-	<!-- // 添加按鈕監聽 -->
-	<!-- document.getElementById("open").onclick = function(){ -->
-		<!-- addCustomLayer(); -->
-	<!-- }; -->
-	<!-- document.getElementById("open").click(); -->
-	<!-- document.getElementById("close").onclick = function(){ -->
-		<!-- if (customLayer) { -->
-			<!-- map.removeTileLayer(customLayer); -->
-		<!-- } -->
-	<!-- }; -->
 	
 	
 	// 更換城市操作
