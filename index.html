@@ -100,6 +100,7 @@
 </body>
 </html>
 <script type="text/javascript">
+
 	// 初始化
 	var map = new BMap.Map("l-map",{minZoom:6,maxZoom:10});          // 创建地图实例
 	var point = new BMap.Point(107.403694,33.927552);  // 创建点坐标
@@ -116,13 +117,22 @@
 			var mk = new BMap.Marker(r.point);
 			map.panTo(r.point);
 			point = new BMap.Point(r.point.lng,r.point.lat); 
+			var myCity = new BMap.LocalCity();
+			myCity.get(myFun);
 		}else {
 			alert('failed'+this.getStatus());
 		}        
 	},{enableHighAccuracy: true})
 	
 	
+	function myFun(result){
+		var cityName = result.name;
+		map.setCenter(cityName);
+		document.getElementById("curCity").innerHTML = cityName;
+	}
 	
+	
+	// 创建数据
 	var data = new Array();
 	data[0] = {lng:116.373694,lat:23.397552,name:"普宁店",address:"地址：普宁市东城区王府井大街88号乐天银泰百货八层"};
 	data[1] = {lng:117.373694,lat:23.997552,name:"潮州店",address:"地址：潮州市东城区王府井大街88号乐天银泰百货八层"};
@@ -133,8 +143,8 @@
 	}
 	
 	
-
-	function addMarker(data){  // 创建图标对象     
+	// 创建图标对象     
+	function addMarker(data){  
 		var opts = {
 		  width : 200,     // 信息窗口宽度
 		  height: 50,     // 信息窗口高度
@@ -144,7 +154,7 @@
 		}
 		var mapPoint = new BMap.Point(data.lng,data.lat);  // 创建点坐标
 		var marker = new BMap.Marker(mapPoint);  // 创建标注
-        var myIcon = new BMap.Icon("position.png", new BMap.Size(25, 40), {offset: new BMap.Size(0, 0)});  
+        var myIcon = new BMap.Icon("position.png", new BMap.Size(35, 56), {offset: new BMap.Size(0, 0)});  
         // 创建标注对象并添加到地图     
         var marker = new BMap.Marker(mapPoint, {icon: myIcon});      
         map.addOverlay(marker);  
