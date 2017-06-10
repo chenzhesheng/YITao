@@ -117,10 +117,10 @@
 			var mk = new BMap.Marker(r.point);
 			map.panTo(r.point);
 			point = new BMap.Point(r.point.lng,r.point.lat); 
-			var myCity = new BMap.LocalCity();
-			myCity.get(myFun);
+			//var myCity = new BMap.LocalCity();
+			//myCity.get(myFun);
 		}else {
-			alert('failed'+this.getStatus());
+			alert('failed：'+this.getStatus());
 		}        
 	},{enableHighAccuracy: true})
 	
